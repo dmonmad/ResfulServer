@@ -6,6 +6,7 @@
 package com.nightm4re.resfulserver.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.Set;
@@ -15,6 +16,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -25,8 +28,8 @@ import javax.validation.constraints.NotBlank;
  * @author Nightm4re
  */
 @JsonIdentityInfo(
-   generator = ObjectIdGenerators.PropertyGenerator.class,
-   property = "nick")
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "nick")
 @Entity
 @Table(name = "usuario")
 public class Usuario {
@@ -39,7 +42,17 @@ public class Usuario {
     @Column(name = "nick", length = 255, unique = true, nullable = false)
     private String nick;
 
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "nombre")
     @ManyToMany
+    @JoinTable(
+            name = "usuarios_grupos",
+            joinColumns = {
+                @JoinColumn(name = "id_grupo")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "id_usuario")
+            })
     private Set<Grupo> grupos;
 
     @OneToMany(
@@ -92,7 +105,5 @@ public class Usuario {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-
-    
 
 }

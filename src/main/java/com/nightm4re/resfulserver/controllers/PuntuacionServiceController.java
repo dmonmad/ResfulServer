@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
  
 @RestController
-@RequestMapping("/comentario")
+@RequestMapping("/puntuacion")
 public class PuntuacionServiceController
 {
     @Autowired

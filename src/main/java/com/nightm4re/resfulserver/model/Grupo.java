@@ -9,12 +9,13 @@ package com.nightm4re.resfulserver.model;
  *
  * @author Nightm4re
  */
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,9 +28,7 @@ import javax.validation.constraints.NotBlank;
  * @author Nightm4re
  */
 @Entity
-@JsonIdentityInfo(
-   generator = ObjectIdGenerators.PropertyGenerator.class,
-   property = "nombre")
+
 @Table(name = "grupo")
 public class Grupo {
 
@@ -37,11 +36,16 @@ public class Grupo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @NotBlank
     @Column(name = "nombre", length = 255, unique = true, nullable = false)
     private String nombre;
 
-    @ManyToMany(mappedBy = "grupos")
+        @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "nick")
+    @JsonIdentityReference(alwaysAsId = true)
+    @ManyToMany(mappedBy = "grupos", fetch = FetchType.EAGER)
     private Set<Usuario> usuarios;
 
     public Long getId() {
@@ -67,7 +71,5 @@ public class Grupo {
     public void setUsuarios(Set<Usuario> usuarios) {
         this.usuarios = usuarios;
     }
-
-    
 
 }
