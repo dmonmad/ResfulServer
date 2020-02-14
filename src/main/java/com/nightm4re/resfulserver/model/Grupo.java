@@ -13,7 +13,6 @@ package com.nightm4re.resfulserver.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,9 +41,7 @@ public class Grupo {
     @Column(name = "nombre", length = 255, unique = true, nullable = false)
     private String nombre;
 
-    @ManyToMany(
-            cascade = CascadeType.ALL,
-            mappedBy = "grupos")
+    @ManyToMany(mappedBy = "grupos")
     private Set<Usuario> usuarios;
 
     public Long getId() {
@@ -71,9 +68,6 @@ public class Grupo {
         this.usuarios = usuarios;
     }
 
-    @Override
-    public String toString() {
-        return "Grupo{" + "id=" + id + ", nombre=" + nombre + ", usuarios=" + usuarios + '}';
-    }
+    
 
 }

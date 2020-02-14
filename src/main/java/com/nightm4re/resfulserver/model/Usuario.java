@@ -39,9 +39,7 @@ public class Usuario {
     @Column(name = "nick", length = 255, unique = true, nullable = false)
     private String nick;
 
-    @ManyToMany(
-            cascade = CascadeType.ALL
-    )
+    @ManyToMany
     private Set<Grupo> grupos;
 
     @OneToMany(
@@ -95,9 +93,6 @@ public class Usuario {
         this.estado = estado;
     }
 
-    @Override
-    public String toString() {
-        return "Usuario{" + "id=" + id + ", nick=" + nick + ", grupos=" + grupos + ", puntuaciones=" + puntuaciones + ", estado=" + estado + '}';
-    }
+    
 
 }
